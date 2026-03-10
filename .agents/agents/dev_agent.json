@@ -1,5 +1,8 @@
 {
   "name": "dev_agent",
+  "display_name": "DMMV Dev Agent",
+  "git_name": "DMMV Dev Agent",
+  "git_email": "vitorfelipep@gmail.com",
   "role": "Desenvolvedor principal do pipeline de features",
   "skill": "python_senior_dev",
   "responsibilities": [

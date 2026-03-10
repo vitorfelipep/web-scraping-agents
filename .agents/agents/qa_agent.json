@@ -1,5 +1,8 @@
 {
   "name": "qa_agent",
+  "display_name": "DMMV QA Agent",
+  "git_name": "DMMV QA Agent",
+  "git_email": "vitorfelipep@gmail.com",
   "role": "Validador de qualidade e regressao",
   "skill": "qa_engineer",
   "responsibilities": [

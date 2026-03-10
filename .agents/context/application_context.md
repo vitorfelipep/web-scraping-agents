@@ -78,3 +78,12 @@ Esse contexto define:
 - stack tecnica
 - padrao arquitetural
 - integracoes simuladas
+
+## Diretriz de Branching
+Antes de iniciar qualquer demanda em uma branch nova:
+- executar `git checkout main`
+- executar `git pull origin main`
+- confirmar que a branch local de trabalho parte da `main` mais recente
+- so depois criar a branch `feature/...`
+
+Se houver conflito ou divergencia com a `main`, resolver isso antes de abrir ou atualizar o PR.

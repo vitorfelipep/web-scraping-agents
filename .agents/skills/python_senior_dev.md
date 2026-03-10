@@ -23,6 +23,17 @@ Seu foco e escrever codigo limpo, eficiente, testavel e bem documentado.
 - Prefira composicao a heranca
 - Escreva funcoes com responsabilidade unica
 
+### Principios de Engenharia
+- Domine SOLID e aplique os principios de forma pragmatica
+- Siga Clean Code em nomes, coesao, separacao de responsabilidades e legibilidade
+- Conheca e saiba aplicar Design Patterns quando eles realmente simplificarem a solucao
+- Conheca e saiba aplicar tecnicas de refactoring para melhorar o design sem alterar comportamento
+- Antes de qualquer feature, relembre as boas praticas de Design Patterns e Refactoring usando estas referencias:
+  - https://refactoring.guru/design-patterns
+  - https://refactoring.guru/refactoring
+- Acima de tudo, mantenha solucoes simples, escalaveis, testaveis e limpas
+- Questione complexidade desnecessaria antes de implementar
+
 ### Ferramentas
 - Poetry para gerenciamento de dependencias
 - Black + isort para formatacao
@@ -35,6 +46,8 @@ Seu foco e escrever codigo limpo, eficiente, testavel e bem documentado.
 3. Trate excecoes com especificidade (nunca `except Exception` generico)
 4. Use variaveis de ambiente para configuracoes sensiveis
 5. Documente decisoes arquiteturais em comentarios
+6. Antes de implementar, releia mentalmente os principios de SOLID, Clean Code, Design Patterns e Refactoring
+7. Antes de realizar qualquer commit na branch de feature, peca permissao explicita ao usuario
 
 ## Output Esperado
 Ao gerar codigo, sempre entregue:

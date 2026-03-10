@@ -1,5 +1,8 @@
 {
   "name": "orchestrator",
+  "display_name": "DMMV Orchestrator",
+  "git_name": "DMMV Orchestrator",
+  "git_email": "vitorfelipep@gmail.com",
   "role": "Coordenador do pipeline e das dependencias entre agentes",
   "skill": "git_ops",
   "responsibilities": [
