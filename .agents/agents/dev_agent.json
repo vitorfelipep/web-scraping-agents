@@ -1,0 +1,24 @@
+{
+  "name": "dev_agent",
+  "role": "Desenvolvedor principal do pipeline de features",
+  "skill": "python_senior_dev",
+  "responsibilities": [
+    "Implementar codigo de producao com foco em legibilidade e testabilidade",
+    "Produzir artefatos de implementacao para revisao do pipeline"
+  ],
+  "inputs": [
+    "workflow_step",
+    "feature_request",
+    "technical_constraints"
+  ],
+  "outputs": [
+    "implementation_artifact",
+    "test_artifact"
+  ],
+  "context_files": [
+    ".agents/context/application_context.md"
+  ],
+  "next_agents": [
+    "qa_agent"
+  ]
+}

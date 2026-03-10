@@ -1,0 +1,22 @@
+{
+  "name": "qa_agent",
+  "role": "Validador de qualidade e regressao",
+  "skill": "qa_engineer",
+  "responsibilities": [
+    "Validar a implementacao recebida com testes e criterios de aceite",
+    "Registrar riscos, falhas e recomendacao final"
+  ],
+  "inputs": [
+    "implementation_artifact",
+    "test_artifact",
+    "acceptance_criteria"
+  ],
+  "outputs": [
+    "qa_report",
+    "approval_status"
+  ],
+  "context_files": [
+    ".agents/context/application_context.md"
+  ],
+  "next_agents": []
+}

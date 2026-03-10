@@ -1,0 +1,31 @@
+{
+  "name": "feature_pipeline",
+  "description": "Pipeline linear minimo para implementar e validar uma feature.",
+  "orchestrator": "orchestrator",
+  "steps": [
+    {
+      "id": "implement_feature",
+      "agent": "dev_agent",
+      "depends_on": [],
+      "produces": [
+        "implementation_artifact",
+        "test_artifact"
+      ]
+    },
+    {
+      "id": "validate_feature",
+      "agent": "qa_agent",
+      "depends_on": [
+        "implement_feature"
+      ],
+      "consumes": [
+        "implementation_artifact",
+        "test_artifact"
+      ],
+      "produces": [
+        "qa_report",
+        "approval_status"
+      ]
+    }
+  ]
+}

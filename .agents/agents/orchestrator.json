@@ -1,0 +1,30 @@
+{
+  "name": "orchestrator",
+  "role": "Coordenador do pipeline e das dependencias entre agentes",
+  "skill": "git_ops",
+  "responsibilities": [
+    "Selecionar o workflow ativo",
+    "Garantir que os agentes sejam executados na ordem definida",
+    "Consolidar o estado do pipeline"
+  ],
+  "inputs": [
+    "workflow_name",
+    "feature_request"
+  ],
+  "outputs": [
+    "resolved_pipeline",
+    "execution_summary"
+  ],
+  "context_files": [
+    ".agents/context/application_context.md"
+  ],
+  "next_agents": [
+    "dev_agent",
+    "qa_agent"
+  ],
+  "workflow": "feature_pipeline",
+  "available_agents": [
+    "dev_agent",
+    "qa_agent"
+  ]
+}
