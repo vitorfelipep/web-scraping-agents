@@ -61,6 +61,13 @@ Diretrizes obrigatorias:
 - componentes coesos e testaveis
 - isolamento entre regras de negocio e infraestrutura
 
+Estrutura inicial criada em `src/web_scraping`:
+- `domain/`: entidades do contrato e itens
+- `application/`: DTOs e caso de uso de consulta
+- `ports/`: contratos para scraper, repositorio e notificacao
+- `adapters/`: persistencia em memoria, notificacao simulada e scraper Playwright inicial
+- `entrypoints/api/`: app FastAPI e schemas HTTP
+
 ## Contexto compartilhado dos agentes
 O contexto funcional e tecnico comum do projeto fica em:
 - [.agents/context/application_context.md](/Users/vitorcosta/codex-agents-study/agent-skill-projetc/portal-web-scraping/.agents/context/application_context.md)
@@ -70,7 +77,17 @@ Esse arquivo deve ser considerado a fonte base para qualquer feature nova. As de
 ## Estrutura do projeto
 ```text
 web-scraping/
+├── docs/
+│   └── technical_decisions.md
+├── pyproject.toml
 ├── src/
+│   └── web_scraping/
+│       ├── application/
+│       ├── adapters/
+│       ├── domain/
+│       ├── entrypoints/
+│       ├── ports/
+│       └── settings.py
 ├── tests/
 ├── .github/
 │   ├── CODEOWNERS
@@ -95,6 +112,20 @@ web-scraping/
 │       └── feature_pipeline.json
 └── agent_runner.py
 ```
+
+## Dependencias escolhidas
+As decisoes tecnicas iniciais estao em:
+- [technical_decisions.md](/Users/vitorcosta/codex-agents-study/agent-skill-projetc/portal-web-scraping/docs/technical_decisions.md)
+
+Dependencias principais:
+- `fastapi`: API REST
+- `uvicorn`: servidor ASGI local
+- `playwright`: scraping de paginas dinamicas
+- `pydantic` e `pydantic-settings`: contratos e configuracao
+- `pytest`: testes automatizados
+
+Versao local de Python validada nesta maquina:
+- `Python 3.14.3`
 
 ## Governanca no GitHub
 O projeto foi preparado para um fluxo controlado por Pull Request.
@@ -223,11 +254,32 @@ git config --get user.email
 
 ## Fluxo sugerido de trabalho
 - voce cria a issue no GitHub
+- se nao houver demanda explicita no chat, o agente consulta as issues abertas via `gh`
 - o agente atualiza a `main` local antes de criar a branch
 - o agente implementa em uma branch `feature/...` criada a partir da `main` atualizada
 - o agente abre ou prepara o PR
 - voce revisa e aprova
 - o merge para `main` acontece so depois da sua aprovacao
+
+## Como o agente encontra trabalho quando voce nao informar a tarefa
+Com `gh` autenticado, o comportamento padrao passa a ser:
+
+1. consultar issues abertas no GitHub
+2. identificar a issue mais adequada para desenvolvimento
+3. usar a issue como fonte oficial da demanda
+4. atualizar a `main`
+5. criar a branch `feature/...`
+6. implementar a tarefa
+7. parar antes do commit se sua aprovacao ainda for obrigatoria
+
+Comandos tipicos que o agente pode usar:
+
+```bash
+gh issue list
+gh issue view NUMERO
+```
+
+Se existirem varias issues abertas e a prioridade nao estiver clara, o agente deve pedir sua confirmacao antes de escolher.
 
 ## Como os agentes devem trabalhar
 ### 1. Orchestrator
@@ -337,6 +389,33 @@ Saida esperada:
 - validacao dos agentes
 - validacao do workflow
 - exibicao do pipeline resolvido
+
+## Setup local
+Instalar dependencias do projeto:
+
+```bash
+python3 -m pip install --upgrade pip
+python3 -m pip install -e .[dev]
+python3 -m playwright install
+```
+
+Subir a API local:
+
+```bash
+uvicorn web_scraping.entrypoints.api.app:app --reload
+```
+
+Executar testes:
+
+```bash
+pytest -q
+```
+
+Endpoint inicial:
+
+```bash
+curl "http://127.0.0.1:8000/contracts/palmeira?id=MV8yMDMy&mode=INFO&customer_name=Cliente%20X"
+```
 
 ## Como evoluir o projeto
 - adicionar os modulos hexagonais dentro de `src/`

@@ -48,6 +48,8 @@ Seu foco e escrever codigo limpo, eficiente, testavel e bem documentado.
 5. Documente decisoes arquiteturais em comentarios
 6. Antes de implementar, releia mentalmente os principios de SOLID, Clean Code, Design Patterns e Refactoring
 7. Antes de realizar qualquer commit na branch de feature, peca permissao explicita ao usuario
+8. Quando o usuario nao apontar uma demanda especifica, consulte as issues abertas no GitHub com `gh` antes de escolher em que trabalhar
+9. Considere a issue do GitHub como a fonte principal de contexto funcional da feature
 
 ## Output Esperado
 Ao gerar codigo, sempre entregue:
