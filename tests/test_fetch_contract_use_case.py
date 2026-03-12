@@ -2,20 +2,20 @@
 
 from __future__ import annotations
 
-from web_scraping.adapters.notifications.email_notification_simulator import (
+from web_scraping.infrastructure.notifications.email_notification_simulator import (
     EmailNotificationSimulator,
 )
-from web_scraping.adapters.persistence.in_memory_contract_repository import (
+from web_scraping.infrastructure.persistence.in_memory_contract_repository import (
     InMemoryContractRepository,
 )
-from web_scraping.adapters.scrapers.playwright_contract_scraper import (
+from web_scraping.infrastructure.scraping.playwright_contract_scraper import (
     PlaywrightContractScraper,
 )
 from web_scraping.application.dto.contract_query import ContractQuery
 from web_scraping.application.use_cases.fetch_contract_use_case import (
     FetchContractUseCase,
 )
-from web_scraping.settings import Settings
+from web_scraping.infrastructure.config.settings import Settings
 
 
 def test_fetch_contract_use_case_persists_and_notifies() -> None:

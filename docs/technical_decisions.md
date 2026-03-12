@@ -8,7 +8,9 @@
 
 ## Arquitetura
 - Estrutura base em arquitetura hexagonal
-- Separacao entre dominio, aplicacao, portas, adaptadores e entrypoints
+- Separacao entre dominio, aplicacao e infraestrutura
+- Portas ficam na camada de aplicacao
+- Configuracao, persistencia, scraping, notificacao e API ficam em infraestrutura
 - Dependencias fluem de fora para dentro
 
 ## Persistencia

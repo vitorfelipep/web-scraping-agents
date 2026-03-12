@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+from web_scraping.application.ports.contract_scraper import ContractScraper
 from web_scraping.domain.entities.contract import Contract
 from web_scraping.domain.entities.contract_item import ContractItem
-from web_scraping.ports.contract_scraper import ContractScraper
 
 
 class PlaywrightContractScraper(ContractScraper):

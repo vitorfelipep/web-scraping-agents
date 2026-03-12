@@ -49,10 +49,8 @@ O projeto deve seguir arquitetura hexagonal.
 
 Camadas previstas:
 - `domain/`: entidades, objetos de valor e regras de negocio
-- `application/`: casos de uso e contratos de entrada/saida
-- `ports/`: interfaces para scraping, repositorio e notificacao
-- `adapters/`: implementacoes para portal web, banco local e email
-- `entrypoints/`: API REST
+- `application/`: casos de uso, DTOs e portas de entrada/saida
+- `infrastructure/`: configuracao, persistencia, scraping, notificacoes e entrypoints HTTP
 
 Diretrizes obrigatorias:
 - Clean Code
@@ -60,13 +58,6 @@ Diretrizes obrigatorias:
 - type hints
 - componentes coesos e testaveis
 - isolamento entre regras de negocio e infraestrutura
-
-Estrutura inicial criada em `src/web_scraping`:
-- `domain/`: entidades do contrato e itens
-- `application/`: DTOs e caso de uso de consulta
-- `ports/`: contratos para scraper, repositorio e notificacao
-- `adapters/`: persistencia em memoria, notificacao simulada e scraper Playwright inicial
-- `entrypoints/api/`: app FastAPI e schemas HTTP
 
 ## Contexto compartilhado dos agentes
 O contexto funcional e tecnico comum do projeto fica em:
@@ -83,20 +74,18 @@ web-scraping/
 ├── src/
 │   └── web_scraping/
 │       ├── application/
-│       ├── adapters/
+│       │   ├── dto/
+│       │   ├── ports/
+│       │   └── use_cases/
 │       ├── domain/
-│       ├── entrypoints/
-│       ├── ports/
-│       └── settings.py
+│       │   └── entities/
+│       └── infrastructure/
+│           ├── config/
+│           ├── entrypoints/
+│           ├── notifications/
+│           ├── persistence/
+│           └── scraping/
 ├── tests/
-├── .github/
-│   ├── CODEOWNERS
-│   ├── pull_request_template.md
-│   ├── ISSUE_TEMPLATE/
-│   │   ├── feature_request.md
-│   │   └── config.yml
-│   └── workflows/
-│       └── ci.yml
 ├── .agents/
 │   ├── context/
 │   │   └── application_context.md
@@ -113,173 +102,11 @@ web-scraping/
 └── agent_runner.py
 ```
 
-## Dependencias escolhidas
-As decisoes tecnicas iniciais estao em:
+Decisoes tecnicas e dependencias iniciais:
 - [technical_decisions.md](/Users/vitorcosta/codex-agents-study/agent-skill-projetc/portal-web-scraping/docs/technical_decisions.md)
 
-Dependencias principais:
-- `fastapi`: API REST
-- `uvicorn`: servidor ASGI local
-- `playwright`: scraping de paginas dinamicas
-- `pydantic` e `pydantic-settings`: contratos e configuracao
-- `pytest`: testes automatizados
-
-Versao local de Python validada nesta maquina:
+Versao local de Python registrada para esta base:
 - `Python 3.14.3`
-
-## Governanca no GitHub
-O projeto foi preparado para um fluxo controlado por Pull Request.
-
-Arquivos adicionados:
-- [.github/CODEOWNERS](/Users/vitorcosta/codex-agents-study/agent-skill-projetc/portal-web-scraping/.github/CODEOWNERS): solicita sua revisao em qualquer alteracao
-- [.github/pull_request_template.md](/Users/vitorcosta/codex-agents-study/agent-skill-projetc/portal-web-scraping/.github/pull_request_template.md): padroniza o conteudo dos PRs
-- [.github/ISSUE_TEMPLATE/feature_request.md](/Users/vitorcosta/codex-agents-study/agent-skill-projetc/portal-web-scraping/.github/ISSUE_TEMPLATE/feature_request.md): padroniza a abertura de demandas
-- [.github/workflows/ci.yml](/Users/vitorcosta/codex-agents-study/agent-skill-projetc/portal-web-scraping/.github/workflows/ci.yml): valida o runner e executa os testes em PR e push para `main`
-
-Fluxo esperado:
-1. Abrir uma issue de feature
-2. Atualizar a `main` local com `git checkout main` e `git pull origin main`
-3. Criar branch `feature/...` somente a partir da `main` atualizada
-4. Verificar divergencias ou conflitos com a `main` antes de iniciar a implementacao
-5. Implementar a mudanca na branch
-6. Abrir PR para `main`
-7. Aguardar sua revisao e aprovacao
-8. Fazer merge apenas apos aprovacao
-
-## Identidade dos agentes nos commits
-Os agentes podem assinar commits com nomes proprios, enquanto a aprovacao e o merge continuam sob sua conta no GitHub.
-
-Convencao atual:
-- `dev_agent` -> `DMMV Dev Agent`
-- `qa_agent` -> `DMMV QA Agent`
-- `orchestrator` -> `DMMV Orchestrator`
-
-Metadados de Git configurados nos JSONs dos agentes:
-- `display_name`
-- `git_name`
-- `git_email`
-
-Email padrao definido:
-- `vitorfelipep@gmail.com`
-
-Isso significa:
-- o autor do commit pode aparecer como agente
-- o aprovador continua sendo `@vitorfelipep` via GitHub
-- `CODEOWNERS` continua representando revisao humana, nao agentes
-
-## Como configurar isso no GitHub
-Depois de subir estes arquivos para o repositrio, configure a branch `main`.
-
-Passo a passo:
-1. Acesse `Settings` do repositrio
-2. Entre em `Rules` ou `Branches`, dependendo da UI da sua conta
-3. Crie uma regra para a branch `main`
-4. Defina o alvo como `Branch name pattern = main`
-5. Ative `Require a pull request before merging`
-6. Ative `Require approvals`
-7. Configure `1` aprovacao minima
-8. Ative `Dismiss stale pull request approvals when new commits are pushed`
-9. Ative `Require conversation resolution before merging`
-10. Ative `Require status checks to pass before merging`
-11. Selecione o check da workflow `CI` quando ele aparecer apos o primeiro push
-
-Com isso, a `main` fica protegida e o merge passa a depender da sua aprovacao.
-
-## Significado do warning da rule
-Mensagem:
-
-`This ruleset does not target any resources and will not be applied.`
-
-Isso significa que a regra foi criada sem apontar para nenhum alvo real. Em geral acontece quando:
-- voce criou um ruleset sem definir o pattern da branch
-- o pattern nao bate com nenhuma branch existente
-- a regra foi criada para um tipo de recurso errado
-
-Para corrigir:
-- escolha `Branches` como alvo
-- informe `main` em `Branch name pattern`
-- confirme que a branch `main` ja existe no repositrio remoto
-
-Se a branch ainda nao existir no GitHub, faca o primeiro push da `main` antes de criar a regra.
-
-## Comandos Git para o fluxo de features
-Criar uma branch de feature:
-
-```bash
-git checkout main
-git pull origin main
-git checkout -b feature/nome-da-feature
-```
-
-Essa ordem e obrigatoria. Nao crie `feature/...` a partir de uma branch desatualizada.
-
-Antes de abrir o PR, confira se a branch continua alinhada com `main` e resolva conflitos localmente se necessario.
-
-Enviar a branch:
-
-```bash
-git push -u origin feature/nome-da-feature
-```
-
-Depois, abra o PR no GitHub da branch `feature/nome-da-feature` para `main`.
-
-## Como trocar a autoria Git para um agente
-Para commits de implementacao do agente dev:
-
-```bash
-git config user.name "DMMV Dev Agent"
-git config user.email "vitorfelipep@gmail.com"
-```
-
-Para commits do agente de QA:
-
-```bash
-git config user.name "DMMV QA Agent"
-git config user.email "vitorfelipep@gmail.com"
-```
-
-Para voltar sua identidade pessoal no repositorio:
-
-```bash
-git config user.name "Vitor Felipe"
-git config user.email "vitorfelipep@gmail.com"
-```
-
-Para conferir a identidade ativa:
-
-```bash
-git config --get user.name
-git config --get user.email
-```
-
-## Fluxo sugerido de trabalho
-- voce cria a issue no GitHub
-- se nao houver demanda explicita no chat, o agente consulta as issues abertas via `gh`
-- o agente atualiza a `main` local antes de criar a branch
-- o agente implementa em uma branch `feature/...` criada a partir da `main` atualizada
-- o agente abre ou prepara o PR
-- voce revisa e aprova
-- o merge para `main` acontece so depois da sua aprovacao
-
-## Como o agente encontra trabalho quando voce nao informar a tarefa
-Com `gh` autenticado, o comportamento padrao passa a ser:
-
-1. consultar issues abertas no GitHub
-2. identificar a issue mais adequada para desenvolvimento
-3. usar a issue como fonte oficial da demanda
-4. atualizar a `main`
-5. criar a branch `feature/...`
-6. implementar a tarefa
-7. parar antes do commit se sua aprovacao ainda for obrigatoria
-
-Comandos tipicos que o agente pode usar:
-
-```bash
-gh issue list
-gh issue view NUMERO
-```
-
-Se existirem varias issues abertas e a prioridade nao estiver clara, o agente deve pedir sua confirmacao antes de escolher.
 
 ## Como os agentes devem trabalhar
 ### 1. Orchestrator
@@ -304,7 +131,7 @@ Fluxo esperado para cada feature:
 
 1. Ler o contexto compartilhado em `.agents/context/application_context.md`
 2. Identificar o caso de uso e os contratos de entrada/saida
-3. Modelar a feature em termos de dominio, aplicacao, portas e adaptadores
+3. Modelar a feature em termos de dominio, aplicacao e infraestrutura
 4. Implementar a feature no `src/`
 5. Criar ou atualizar testes no `tests/`
 6. Validar o workflow com `agent_runner.py`
@@ -390,35 +217,8 @@ Saida esperada:
 - validacao do workflow
 - exibicao do pipeline resolvido
 
-## Setup local
-Instalar dependencias do projeto:
-
-```bash
-python3 -m pip install --upgrade pip
-python3 -m pip install -e .[dev]
-python3 -m playwright install
-```
-
-Subir a API local:
-
-```bash
-uvicorn web_scraping.entrypoints.api.app:app --reload
-```
-
-Executar testes:
-
-```bash
-pytest -q
-```
-
-Endpoint inicial:
-
-```bash
-curl "http://127.0.0.1:8000/contracts/palmeira?id=MV8yMDMy&mode=INFO&customer_name=Cliente%20X"
-```
-
 ## Como evoluir o projeto
-- adicionar os modulos hexagonais dentro de `src/`
+- adicionar novos modulos hexagonais dentro de `src/`
 - implementar o adaptador Playwright para o portal e-publica
 - modelar o documento do contrato e seus itens
 - adicionar repositorio de teste em memoria
@@ -429,3 +229,18 @@ curl "http://127.0.0.1:8000/contracts/palmeira?id=MV8yMDMy&mode=INFO&customer_na
 
 ## Observacao
 O projeto esta preparado para evolucao orientada por agentes. O contexto base do negocio e da tecnologia deve permanecer centralizado no arquivo de contexto compartilhado para evitar perda de consistencia entre features.
+
+## Setup local
+Instalar dependencias:
+
+```bash
+python3 -m pip install --upgrade pip
+python3 -m pip install -e .[dev]
+python3 -m playwright install
+```
+
+Subir a API:
+
+```bash
+uvicorn web_scraping.infrastructure.entrypoints.api.app:app --reload
+```

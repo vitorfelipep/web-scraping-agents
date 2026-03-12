@@ -5,8 +5,8 @@ from __future__ import annotations
 from datetime import UTC, datetime
 
 from web_scraping.application.dto.notification_result import NotificationResult
-from web_scraping.ports.notification_gateway import NotificationGateway
-from web_scraping.settings import Settings
+from web_scraping.application.ports.notification_gateway import NotificationGateway
+from web_scraping.infrastructure.config.settings import Settings
 
 
 class EmailNotificationSimulator(NotificationGateway):

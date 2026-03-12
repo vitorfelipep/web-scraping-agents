@@ -4,21 +4,24 @@ from __future__ import annotations
 
 from fastapi import FastAPI
 
-from web_scraping.adapters.notifications.email_notification_simulator import (
-    EmailNotificationSimulator,
-)
-from web_scraping.adapters.persistence.in_memory_contract_repository import (
-    InMemoryContractRepository,
-)
-from web_scraping.adapters.scrapers.playwright_contract_scraper import (
-    PlaywrightContractScraper,
-)
 from web_scraping.application.dto.contract_query import ContractQuery
 from web_scraping.application.use_cases.fetch_contract_use_case import (
     FetchContractUseCase,
 )
-from web_scraping.entrypoints.api.schemas import ContractQueryParams, HealthResponse
-from web_scraping.settings import Settings
+from web_scraping.infrastructure.config.settings import Settings
+from web_scraping.infrastructure.entrypoints.api.schemas import (
+    ContractQueryParams,
+    HealthResponse,
+)
+from web_scraping.infrastructure.notifications.email_notification_simulator import (
+    EmailNotificationSimulator,
+)
+from web_scraping.infrastructure.persistence.in_memory_contract_repository import (
+    InMemoryContractRepository,
+)
+from web_scraping.infrastructure.scraping.playwright_contract_scraper import (
+    PlaywrightContractScraper,
+)
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:

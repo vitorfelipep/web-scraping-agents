@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from web_scraping.application.dto.contract_lookup_result import ContractLookupResult
 from web_scraping.application.dto.contract_query import ContractQuery
-from web_scraping.ports.contract_repository import ContractRepository
-from web_scraping.ports.contract_scraper import ContractScraper
-from web_scraping.ports.notification_gateway import NotificationGateway
+from web_scraping.application.ports.contract_repository import ContractRepository
+from web_scraping.application.ports.contract_scraper import ContractScraper
+from web_scraping.application.ports.notification_gateway import NotificationGateway
 
 
 class FetchContractUseCase:
