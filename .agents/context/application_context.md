@@ -87,3 +87,13 @@ Antes de iniciar qualquer demanda em uma branch nova:
 - so depois criar a branch `feature/...`
 
 Se houver conflito ou divergencia com a `main`, resolver isso antes de abrir ou atualizar o PR.
+
+## Diretriz de Descoberta de Trabalho
+Quando o usuario nao informar explicitamente qual demanda deve ser executada:
+- consultar o GitHub do repositorio com `gh`
+- listar ou inspecionar issues abertas
+- priorizar issues prontas para desenvolvimento
+- usar a issue selecionada como fonte oficial da tarefa
+- so iniciar implementacao depois de identificar claramente qual issue sera atendida
+
+Se houver ambiguidade entre varias issues abertas, apresentar a selecao ao usuario antes de implementar.
