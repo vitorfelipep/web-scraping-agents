@@ -28,4 +28,4 @@ jobs:
         run: python agent_runner.py
 
       - name: Run tests
-        run: pytest -q
+        run: pytest

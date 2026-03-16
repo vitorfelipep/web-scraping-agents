@@ -18,7 +18,9 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-  "pytest>=8.3,<9.0"
+  "httpx>=0.28,<1.0",
+  "pytest>=8.3,<9.0",
+  "pytest-cov>=6.1,<7.0"
 ]
 
 [tool.setuptools]
@@ -28,5 +30,21 @@ package-dir = {"" = "src"}
 where = ["src"]
 
 [tool.pytest.ini_options]
+addopts = [
+  "--cov=src/web_scraping",
+  "--cov-branch",
+  "--cov-report=term-missing",
+  "--cov-report=xml",
+  "--cov-fail-under=90"
+]
 pythonpath = ["src", "."]
 testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["src/web_scraping"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+fail_under = 90

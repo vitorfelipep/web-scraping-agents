@@ -244,3 +244,16 @@ Subir a API:
 ```bash
 uvicorn web_scraping.infrastructure.entrypoints.api.app:app --reload
 ```
+
+Rodar testes com cobertura:
+
+```bash
+python3 -m pytest
+```
+
+Cobertura configurada:
+- escopo: `src/web_scraping`
+- cobertura de linhas e branches
+- minimo global: `90%`
+- relatorio no terminal com linhas faltantes
+- geracao de `coverage.xml`

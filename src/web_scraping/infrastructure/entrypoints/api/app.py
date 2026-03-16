@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-from fastapi import FastAPI
+from typing import Annotated
+
+from fastapi import Depends, FastAPI
 
 from web_scraping.application.dto.contract_query import ContractQuery
 from web_scraping.application.use_cases.fetch_contract_use_case import (
@@ -40,7 +42,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         return HealthResponse(status="ok")
 
     @app.get("/contracts/{city}")
-    def get_contract(city: str, params: ContractQueryParams) -> dict[str, object]:
+    def get_contract(
+        city: str,
+        params: Annotated[ContractQueryParams, Depends()],
+    ) -> dict[str, object]:
         """Return a JSON payload for one contract lookup."""
         result = use_case.execute(
             ContractQuery(
